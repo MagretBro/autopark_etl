@@ -1,0 +1,65 @@
+[2025-06-05T18:36:51.888+0300] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2025-06-05T18:36:51.912+0300] {taskinstance.py:2613} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: push_autopark_import_pipeline.update_existing_rows manual__2025-06-05T15:36:04.108922+00:00 [queued]>
+[2025-06-05T18:36:51.923+0300] {taskinstance.py:2613} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: push_autopark_import_pipeline.update_existing_rows manual__2025-06-05T15:36:04.108922+00:00 [queued]>
+[2025-06-05T18:36:51.923+0300] {taskinstance.py:2866} INFO - Starting attempt 1 of 1
+[2025-06-05T18:36:51.938+0300] {taskinstance.py:2889} INFO - Executing <Task(SQLExecuteQueryOperator): update_existing_rows> on 2025-06-05 15:36:04.108922+00:00
+[2025-06-05T18:36:51.942+0300] {standard_task_runner.py:72} INFO - Started process 29370 to run task
+[2025-06-05T18:36:51.949+0300] {standard_task_runner.py:104} INFO - Running: ['airflow', 'tasks', 'run', 'push_autopark_import_pipeline', 'update_existing_rows', 'manual__2025-06-05T15:36:04.108922+00:00', '--job-id', '18', '--raw', '--subdir', 'DAGS_FOLDER/push_autopark_import_pipeline.py', '--cfg-path', '/var/folders/p0/qnxbkr491pd245gy9gbyyml40000gn/T/tmp_t43eyzt']
+[2025-06-05T18:36:51.952+0300] {standard_task_runner.py:105} INFO - Job 18: Subtask update_existing_rows
+[2025-06-05T18:36:52.034+0300] {task_command.py:467} INFO - Running <TaskInstance: push_autopark_import_pipeline.update_existing_rows manual__2025-06-05T15:36:04.108922+00:00 [running]> on host MacBook-Pro-Margarita.local
+[2025-06-05T18:36:52.157+0300] {taskinstance.py:3132} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='airflow' AIRFLOW_CTX_DAG_ID='push_autopark_import_pipeline' AIRFLOW_CTX_TASK_ID='update_existing_rows' AIRFLOW_CTX_EXECUTION_DATE='2025-06-05T15:36:04.108922+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2025-06-05T15:36:04.108922+00:00'
+[2025-06-05T18:36:52.159+0300] {logging_mixin.py:190} INFO - Task instance is in running state
+[2025-06-05T18:36:52.160+0300] {logging_mixin.py:190} INFO -  Previous state of the Task instance: queued
+[2025-06-05T18:36:52.161+0300] {logging_mixin.py:190} INFO - Current task name:update_existing_rows state:running start_date:2025-06-05 15:36:51.913109+00:00
+[2025-06-05T18:36:52.161+0300] {logging_mixin.py:190} INFO - Dag name:push_autopark_import_pipeline and current dag run status:running
+[2025-06-05T18:36:52.162+0300] {taskinstance.py:731} INFO - ::endgroup::
+[2025-06-05T18:36:52.163+0300] {sql.py:278} INFO - Executing: -- ALTER TABLE table_old ADD COLUMN IF NOT EXISTS ap2023 INT;
+-- ALTER TABLE table_old ADD COLUMN IF NOT EXISTS ap2024 INT;
+
+UPDATE table_old t
+SET
+    ap2023 = COALESCE(t.ap2023, 0) + i.ap2023,
+    ap2024 = COALESCE(t.ap2024, 0) + i.ap2024,
+    carid = (
+        SELECT STRING_AGG(DISTINCT val, ',' ORDER BY val)
+        FROM unnest(string_to_array(COALESCE(t.carid, '') || ',' || COALESCE(i.carid, ''), ',')) val
+        WHERE TRIM(val) <> ''
+    )
+FROM import_aggregated i
+WHERE i.tecdocid IS NOT NULL
+  AND t.tecdocid = i.tecdocid
+  AND t.type = i.type;
+[2025-06-05T18:36:52.177+0300] {base.py:84} INFO - Retrieving connection 'postgres_car'
+[2025-06-05T18:36:52.193+0300] {logging_mixin.py:190} WARNING - /Users/margaritaborodina/ALL_PROJECTS/airflow_car/venv/lib/python3.10/site-packages/airflow/providers/postgres/hooks/postgres.py:30 RemovedInAirflow3Warning: This module is deprecated. Please use `airflow.providers.common.sql.hooks.sql`.
+[2025-06-05T18:36:52.205+0300] {base.py:84} INFO - Retrieving connection 'postgres_car'
+[2025-06-05T18:36:52.206+0300] {sql.py:218} WARNING - This setter is for backward compatibility and should not be used.
+Since the introduction of connection property, the providers listed below breaks due to assigning value to self.connection in their __init__ method.
+* apache-airflow-providers-mysql<5.7.1
+* apache-airflow-providers-elasticsearch<5.5.1
+* apache-airflow-providers-postgres<5.13.0
+[2025-06-05T18:36:52.214+0300] {sql.py:553} INFO - Running statement: -- ALTER TABLE table_old ADD COLUMN IF NOT EXISTS ap2023 INT;
+-- ALTER TABLE table_old ADD COLUMN IF NOT EXISTS ap2024 INT;
+
+UPDATE table_old t
+SET
+    ap2023 = COALESCE(t.ap2023, 0) + i.ap2023,
+    ap2024 = COALESCE(t.ap2024, 0) + i.ap2024,
+    carid = (
+        SELECT STRING_AGG(DISTINCT val, ',' ORDER BY val)
+        FROM unnest(string_to_array(COALESCE(t.carid, '') || ',' || COALESCE(i.carid, ''), ',')) val
+        WHERE TRIM(val) <> ''
+    )
+FROM import_aggregated i
+WHERE i.tecdocid IS NOT NULL
+  AND t.tecdocid = i.tecdocid
+  AND t.type = i.type;, parameters: None
+[2025-06-05T18:36:52.220+0300] {sql.py:562} INFO - Rows affected: 3
+[2025-06-05T18:36:52.236+0300] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2025-06-05T18:36:52.237+0300] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=push_autopark_import_pipeline, task_id=update_existing_rows, run_id=manual__2025-06-05T15:36:04.108922+00:00, execution_date=20250605T153604, start_date=20250605T153651, end_date=20250605T153652
+[2025-06-05T18:36:52.251+0300] {logging_mixin.py:190} INFO - Task instance in success state
+[2025-06-05T18:36:52.252+0300] {logging_mixin.py:190} INFO -  Previous state of the Task instance: running
+[2025-06-05T18:36:52.253+0300] {logging_mixin.py:190} INFO - Dag name:push_autopark_import_pipeline queued_at:2025-06-05 15:36:04.133225+00:00
+[2025-06-05T18:36:52.253+0300] {logging_mixin.py:190} INFO - Task hostname:MacBook-Pro-Margarita.local operator:SQLExecuteQueryOperator
+[2025-06-05T18:36:52.291+0300] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2025-06-05T18:36:52.340+0300] {taskinstance.py:3895} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2025-06-05T18:36:52.341+0300] {local_task_job_runner.py:245} INFO - ::endgroup::

@@ -1,0 +1,24 @@
+# Airflow
+airflow.db
+logs/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# VSCode
+.vscode/
+.history/
+
+# Python
+.env
+*.env
+*.sqlite
+*.log
+*.egg-info/
+dist/
+build/
+
+# OS
+.DS_Store
+Thumbs.db

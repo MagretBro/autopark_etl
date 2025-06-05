@@ -1,0 +1,221 @@
+[2025-06-05T18:23:53.926+0300] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2025-06-05T18:23:53.958+0300] {taskinstance.py:2613} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: push_autopark_import_pipeline.prepare_import_data manual__2025-06-05T15:23:25.073649+00:00 [queued]>
+[2025-06-05T18:23:53.973+0300] {taskinstance.py:2613} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: push_autopark_import_pipeline.prepare_import_data manual__2025-06-05T15:23:25.073649+00:00 [queued]>
+[2025-06-05T18:23:53.974+0300] {taskinstance.py:2866} INFO - Starting attempt 1 of 1
+[2025-06-05T18:23:53.994+0300] {taskinstance.py:2889} INFO - Executing <Task(SQLExecuteQueryOperator): prepare_import_data> on 2025-06-05 15:23:25.073649+00:00
+[2025-06-05T18:23:53.999+0300] {standard_task_runner.py:72} INFO - Started process 27403 to run task
+[2025-06-05T18:23:54.009+0300] {standard_task_runner.py:104} INFO - Running: ['airflow', 'tasks', 'run', 'push_autopark_import_pipeline', 'prepare_import_data', 'manual__2025-06-05T15:23:25.073649+00:00', '--job-id', '12', '--raw', '--subdir', 'DAGS_FOLDER/push_autopark_import_pipeline.py', '--cfg-path', '/var/folders/p0/qnxbkr491pd245gy9gbyyml40000gn/T/tmpp5lncs_o']
+[2025-06-05T18:23:54.013+0300] {standard_task_runner.py:105} INFO - Job 12: Subtask prepare_import_data
+[2025-06-05T18:23:54.114+0300] {task_command.py:467} INFO - Running <TaskInstance: push_autopark_import_pipeline.prepare_import_data manual__2025-06-05T15:23:25.073649+00:00 [running]> on host MacBook-Pro-Margarita.local
+[2025-06-05T18:23:54.241+0300] {taskinstance.py:3132} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='airflow' AIRFLOW_CTX_DAG_ID='push_autopark_import_pipeline' AIRFLOW_CTX_TASK_ID='prepare_import_data' AIRFLOW_CTX_EXECUTION_DATE='2025-06-05T15:23:25.073649+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2025-06-05T15:23:25.073649+00:00'
+[2025-06-05T18:23:54.243+0300] {logging_mixin.py:190} INFO - Task instance is in running state
+[2025-06-05T18:23:54.244+0300] {logging_mixin.py:190} INFO -  Previous state of the Task instance: queued
+[2025-06-05T18:23:54.245+0300] {logging_mixin.py:190} INFO - Current task name:prepare_import_data state:running start_date:2025-06-05 15:23:53.959547+00:00
+[2025-06-05T18:23:54.245+0300] {logging_mixin.py:190} INFO - Dag name:push_autopark_import_pipeline and current dag run status:running
+[2025-06-05T18:23:54.246+0300] {taskinstance.py:731} INFO - ::endgroup::
+[2025-06-05T18:23:54.247+0300] {sql.py:278} INFO - Executing: DROP TABLE IF EXISTS import_prepare;
+
+CREATE TEMP TABLE import_prepare AS
+SELECT
+    TRIM(SPLIT_PART(tecdocid, ',', 1)) AS tecdocid,
+    carid,
+    ap2023,
+    ap2024,
+    type
+FROM import_raw
+WHERE tecdocid IS NOT NULL AND POSITION(',' IN tecdocid) = 0
+
+UNION ALL
+
+-- Первая часть "2,3" с суммами
+SELECT
+    TRIM(SPLIT_PART(tecdocid, ',', 1)) AS tecdocid,
+    carid,
+    ap2023,
+    ap2024,
+    type
+FROM import_raw
+WHERE POSITION(',' IN tecdocid) > 0
+
+UNION ALL
+
+-- Вторая часть "2,3" с нулями
+SELECT
+    TRIM(SPLIT_PART(tecdocid, ',', 2)) AS tecdocid,
+    carid,
+    0,
+    0,
+    type
+FROM import_raw
+WHERE POSITION(',' IN tecdocid) > 0
+
+UNION ALL
+
+-- Строки без tecdocid
+SELECT
+    NULL AS tecdocid,
+    carid,
+    ap2023,
+    ap2024,
+    type
+FROM import_raw
+WHERE tecdocid IS NULL;
+
+
+
+
+
+-- CREATE TEMP TABLE import_prepare AS
+-- SELECT
+--     TRIM(SPLIT_PART(tecdocid, ',', 1)) AS tecdocid,
+--     carid,
+--     ap2023,
+--     ap2024,
+--     type
+-- FROM import_raw
+-- WHERE tecdocid IS NOT NULL AND POSITION(',' IN tecdocid) = 0
+
+-- UNION ALL
+
+-- SELECT
+--     TRIM(SPLIT_PART(tecdocid, ',', 1)) AS tecdocid,
+--     carid,
+--     ap2023,
+--     ap2024,
+--     type
+-- FROM import_raw
+-- WHERE POSITION(',' IN tecdocid) > 0
+
+-- UNION ALL
+
+-- SELECT
+--     TRIM(SPLIT_PART(tecdocid, ',', 2)) AS tecdocid,
+--     carid,
+--     0,
+--     0,
+--     type
+-- FROM import_raw
+-- WHERE POSITION(',' IN tecdocid) > 0
+
+-- UNION ALL
+
+-- SELECT
+--     NULL AS tecdocid,
+--     carid,
+--     ap2023,
+--     ap2024,
+--     type
+-- FROM import_raw
+-- WHERE tecdocid IS NULL;
+[2025-06-05T18:23:54.262+0300] {base.py:84} INFO - Retrieving connection 'postgres_car'
+[2025-06-05T18:23:54.272+0300] {logging_mixin.py:190} WARNING - /Users/margaritaborodina/ALL_PROJECTS/airflow_car/venv/lib/python3.10/site-packages/airflow/providers/postgres/hooks/postgres.py:30 RemovedInAirflow3Warning: This module is deprecated. Please use `airflow.providers.common.sql.hooks.sql`.
+[2025-06-05T18:23:54.283+0300] {base.py:84} INFO - Retrieving connection 'postgres_car'
+[2025-06-05T18:23:54.284+0300] {sql.py:218} WARNING - This setter is for backward compatibility and should not be used.
+Since the introduction of connection property, the providers listed below breaks due to assigning value to self.connection in their __init__ method.
+* apache-airflow-providers-mysql<5.7.1
+* apache-airflow-providers-elasticsearch<5.5.1
+* apache-airflow-providers-postgres<5.13.0
+[2025-06-05T18:23:54.290+0300] {sql.py:553} INFO - Running statement: DROP TABLE IF EXISTS import_prepare;
+
+CREATE TEMP TABLE import_prepare AS
+SELECT
+    TRIM(SPLIT_PART(tecdocid, ',', 1)) AS tecdocid,
+    carid,
+    ap2023,
+    ap2024,
+    type
+FROM import_raw
+WHERE tecdocid IS NOT NULL AND POSITION(',' IN tecdocid) = 0
+
+UNION ALL
+
+-- Первая часть "2,3" с суммами
+SELECT
+    TRIM(SPLIT_PART(tecdocid, ',', 1)) AS tecdocid,
+    carid,
+    ap2023,
+    ap2024,
+    type
+FROM import_raw
+WHERE POSITION(',' IN tecdocid) > 0
+
+UNION ALL
+
+-- Вторая часть "2,3" с нулями
+SELECT
+    TRIM(SPLIT_PART(tecdocid, ',', 2)) AS tecdocid,
+    carid,
+    0,
+    0,
+    type
+FROM import_raw
+WHERE POSITION(',' IN tecdocid) > 0
+
+UNION ALL
+
+-- Строки без tecdocid
+SELECT
+    NULL AS tecdocid,
+    carid,
+    ap2023,
+    ap2024,
+    type
+FROM import_raw
+WHERE tecdocid IS NULL;
+
+
+
+
+
+-- CREATE TEMP TABLE import_prepare AS
+-- SELECT
+--     TRIM(SPLIT_PART(tecdocid, ',', 1)) AS tecdocid,
+--     carid,
+--     ap2023,
+--     ap2024,
+--     type
+-- FROM import_raw
+-- WHERE tecdocid IS NOT NULL AND POSITION(',' IN tecdocid) = 0
+
+-- UNION ALL
+
+-- SELECT
+--     TRIM(SPLIT_PART(tecdocid, ',', 1)) AS tecdocid,
+--     carid,
+--     ap2023,
+--     ap2024,
+--     type
+-- FROM import_raw
+-- WHERE POSITION(',' IN tecdocid) > 0
+
+-- UNION ALL
+
+-- SELECT
+--     TRIM(SPLIT_PART(tecdocid, ',', 2)) AS tecdocid,
+--     carid,
+--     0,
+--     0,
+--     type
+-- FROM import_raw
+-- WHERE POSITION(',' IN tecdocid) > 0
+
+-- UNION ALL
+
+-- SELECT
+--     NULL AS tecdocid,
+--     carid,
+--     ap2023,
+--     ap2024,
+--     type
+-- FROM import_raw
+-- WHERE tecdocid IS NULL;, parameters: None
+[2025-06-05T18:23:54.299+0300] {sql.py:562} INFO - Rows affected: 7
+[2025-06-05T18:23:54.319+0300] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2025-06-05T18:23:54.320+0300] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=push_autopark_import_pipeline, task_id=prepare_import_data, run_id=manual__2025-06-05T15:23:25.073649+00:00, execution_date=20250605T152325, start_date=20250605T152353, end_date=20250605T152354
+[2025-06-05T18:23:54.334+0300] {logging_mixin.py:190} INFO - Task instance in success state
+[2025-06-05T18:23:54.335+0300] {logging_mixin.py:190} INFO -  Previous state of the Task instance: running
+[2025-06-05T18:23:54.336+0300] {logging_mixin.py:190} INFO - Dag name:push_autopark_import_pipeline queued_at:2025-06-05 15:23:25.134283+00:00
+[2025-06-05T18:23:54.336+0300] {logging_mixin.py:190} INFO - Task hostname:MacBook-Pro-Margarita.local operator:SQLExecuteQueryOperator
+[2025-06-05T18:23:54.370+0300] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2025-06-05T18:23:54.420+0300] {taskinstance.py:3895} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2025-06-05T18:23:54.423+0300] {local_task_job_runner.py:245} INFO - ::endgroup::

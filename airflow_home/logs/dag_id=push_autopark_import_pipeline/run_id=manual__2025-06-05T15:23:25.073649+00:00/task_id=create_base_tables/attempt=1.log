@@ -1,0 +1,162 @@
+[2025-06-05T18:23:34.803+0300] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2025-06-05T18:23:34.835+0300] {taskinstance.py:2613} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: push_autopark_import_pipeline.create_base_tables manual__2025-06-05T15:23:25.073649+00:00 [queued]>
+[2025-06-05T18:23:34.853+0300] {taskinstance.py:2613} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: push_autopark_import_pipeline.create_base_tables manual__2025-06-05T15:23:25.073649+00:00 [queued]>
+[2025-06-05T18:23:34.854+0300] {taskinstance.py:2866} INFO - Starting attempt 1 of 1
+[2025-06-05T18:23:34.874+0300] {taskinstance.py:2889} INFO - Executing <Task(SQLExecuteQueryOperator): create_base_tables> on 2025-06-05 15:23:25.073649+00:00
+[2025-06-05T18:23:34.879+0300] {standard_task_runner.py:72} INFO - Started process 27299 to run task
+[2025-06-05T18:23:34.899+0300] {standard_task_runner.py:104} INFO - Running: ['airflow', 'tasks', 'run', 'push_autopark_import_pipeline', 'create_base_tables', 'manual__2025-06-05T15:23:25.073649+00:00', '--job-id', '10', '--raw', '--subdir', 'DAGS_FOLDER/push_autopark_import_pipeline.py', '--cfg-path', '/var/folders/p0/qnxbkr491pd245gy9gbyyml40000gn/T/tmpo1pvg1zm']
+[2025-06-05T18:23:34.903+0300] {standard_task_runner.py:105} INFO - Job 10: Subtask create_base_tables
+[2025-06-05T18:23:35.012+0300] {task_command.py:467} INFO - Running <TaskInstance: push_autopark_import_pipeline.create_base_tables manual__2025-06-05T15:23:25.073649+00:00 [running]> on host MacBook-Pro-Margarita.local
+[2025-06-05T18:23:35.125+0300] {taskinstance.py:3132} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='airflow' AIRFLOW_CTX_DAG_ID='push_autopark_import_pipeline' AIRFLOW_CTX_TASK_ID='create_base_tables' AIRFLOW_CTX_EXECUTION_DATE='2025-06-05T15:23:25.073649+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2025-06-05T15:23:25.073649+00:00'
+[2025-06-05T18:23:35.128+0300] {logging_mixin.py:190} INFO - Task instance is in running state
+[2025-06-05T18:23:35.128+0300] {logging_mixin.py:190} INFO -  Previous state of the Task instance: queued
+[2025-06-05T18:23:35.129+0300] {logging_mixin.py:190} INFO - Current task name:create_base_tables state:running start_date:2025-06-05 15:23:34.835765+00:00
+[2025-06-05T18:23:35.130+0300] {logging_mixin.py:190} INFO - Dag name:push_autopark_import_pipeline and current dag run status:running
+[2025-06-05T18:23:35.130+0300] {taskinstance.py:731} INFO - ::endgroup::
+[2025-06-05T18:23:35.131+0300] {sql.py:278} INFO - Executing: DROP TABLE IF EXISTS table_old;
+DROP TABLE IF EXISTS import_raw;
+
+CREATE TABLE table_old (
+    id INT,
+    tecdocid TEXT, 
+    carid TEXT,   
+    ap2021 INT,
+    ap2022 INT,
+    type VARCHAR(10),
+    ap2023 INT,
+    ap2024 INT
+);
+
+INSERT INTO table_old (id, tecdocid, carid, ap2021, ap2022, ap2023, ap2024, type) VALUES
+(1, '1', '1', 20, 15, NULL, NULL, 'HCV'),
+(2, '2', '1', 200, NULL, NULL, NULL, 'HCV'),
+(3, '3', '1', NULL, 150, NULL, NULL, 'HCV'),
+(4, '14', '1', 555, 445, NULL, NULL, 'HCV'),
+(5, '5', NULL, 11, 10, NULL, NULL, 'PC'),
+(6, '6', '2, 3', 55, 33, NULL, NULL, 'PC');
+
+CREATE TABLE import_raw (
+    tecdocid TEXT,
+    carid TEXT,
+    ap2023 INT,
+    ap2024 INT,
+    type VARCHAR(10)
+);
+
+
+
+
+-- CREATE TABLE table_old (
+--     id INT,
+--     tecdocid TEXT, 
+--     carid TEXT,   
+--     ap2021 INT,
+--     ap2022 INT,
+--     type VARCHAR(10)
+-- );
+
+-- INSERT INTO table_old (id, tecdocid, carid, ap2021, ap2022, type) VALUES
+-- (1, '1', '1', 20, 15, 'HCV'),
+-- (2, '2', '1', 200, NULL, 'HCV'),
+-- (3, '3', '1', NULL, 150, 'HCV'),
+-- (4, '14', '1', 555, 445, 'HCV'),
+-- (5, '5', NULL, 11, 10, 'PC'),
+-- (6, '6', '2, 3', 55, 33, 'PC');
+
+-- CREATE TABLE import_raw (
+--     tecdocid TEXT,
+--     carid TEXT,
+--     ap2023 INT,
+--     ap2024 INT,
+--     type VARCHAR(10)
+-- );
+
+-- INSERT INTO import_raw (tecdocid, carid, ap2023, ap2024, type) VALUES
+-- ('1', NULL, 10, 9, 'PC'),
+-- ('2,3', '1', 100, 89, 'HCV'),
+-- (NULL, '2', 1, 0, 'PC'),
+-- (NULL, '3', 22, NULL, 'PC'),
+-- ('14', '1', 444, 345, 'HCV'),
+-- ('2', '2', 40, 11, 'HCV');
+[2025-06-05T18:23:35.145+0300] {base.py:84} INFO - Retrieving connection 'postgres_car'
+[2025-06-05T18:23:35.159+0300] {logging_mixin.py:190} WARNING - /Users/margaritaborodina/ALL_PROJECTS/airflow_car/venv/lib/python3.10/site-packages/airflow/providers/postgres/hooks/postgres.py:30 RemovedInAirflow3Warning: This module is deprecated. Please use `airflow.providers.common.sql.hooks.sql`.
+[2025-06-05T18:23:35.171+0300] {base.py:84} INFO - Retrieving connection 'postgres_car'
+[2025-06-05T18:23:35.172+0300] {sql.py:218} WARNING - This setter is for backward compatibility and should not be used.
+Since the introduction of connection property, the providers listed below breaks due to assigning value to self.connection in their __init__ method.
+* apache-airflow-providers-mysql<5.7.1
+* apache-airflow-providers-elasticsearch<5.5.1
+* apache-airflow-providers-postgres<5.13.0
+[2025-06-05T18:23:35.178+0300] {sql.py:553} INFO - Running statement: DROP TABLE IF EXISTS table_old;
+DROP TABLE IF EXISTS import_raw;
+
+CREATE TABLE table_old (
+    id INT,
+    tecdocid TEXT, 
+    carid TEXT,   
+    ap2021 INT,
+    ap2022 INT,
+    type VARCHAR(10),
+    ap2023 INT,
+    ap2024 INT
+);
+
+INSERT INTO table_old (id, tecdocid, carid, ap2021, ap2022, ap2023, ap2024, type) VALUES
+(1, '1', '1', 20, 15, NULL, NULL, 'HCV'),
+(2, '2', '1', 200, NULL, NULL, NULL, 'HCV'),
+(3, '3', '1', NULL, 150, NULL, NULL, 'HCV'),
+(4, '14', '1', 555, 445, NULL, NULL, 'HCV'),
+(5, '5', NULL, 11, 10, NULL, NULL, 'PC'),
+(6, '6', '2, 3', 55, 33, NULL, NULL, 'PC');
+
+CREATE TABLE import_raw (
+    tecdocid TEXT,
+    carid TEXT,
+    ap2023 INT,
+    ap2024 INT,
+    type VARCHAR(10)
+);
+
+
+
+
+-- CREATE TABLE table_old (
+--     id INT,
+--     tecdocid TEXT, 
+--     carid TEXT,   
+--     ap2021 INT,
+--     ap2022 INT,
+--     type VARCHAR(10)
+-- );
+
+-- INSERT INTO table_old (id, tecdocid, carid, ap2021, ap2022, type) VALUES
+-- (1, '1', '1', 20, 15, 'HCV'),
+-- (2, '2', '1', 200, NULL, 'HCV'),
+-- (3, '3', '1', NULL, 150, 'HCV'),
+-- (4, '14', '1', 555, 445, 'HCV'),
+-- (5, '5', NULL, 11, 10, 'PC'),
+-- (6, '6', '2, 3', 55, 33, 'PC');
+
+-- CREATE TABLE import_raw (
+--     tecdocid TEXT,
+--     carid TEXT,
+--     ap2023 INT,
+--     ap2024 INT,
+--     type VARCHAR(10)
+-- );
+
+-- INSERT INTO import_raw (tecdocid, carid, ap2023, ap2024, type) VALUES
+-- ('1', NULL, 10, 9, 'PC'),
+-- ('2,3', '1', 100, 89, 'HCV'),
+-- (NULL, '2', 1, 0, 'PC'),
+-- (NULL, '3', 22, NULL, 'PC'),
+-- ('14', '1', 444, 345, 'HCV'),
+-- ('2', '2', 40, 11, 'HCV');, parameters: None
+[2025-06-05T18:23:35.210+0300] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2025-06-05T18:23:35.211+0300] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=push_autopark_import_pipeline, task_id=create_base_tables, run_id=manual__2025-06-05T15:23:25.073649+00:00, execution_date=20250605T152325, start_date=20250605T152334, end_date=20250605T152335
+[2025-06-05T18:23:35.221+0300] {logging_mixin.py:190} INFO - Task instance in success state
+[2025-06-05T18:23:35.222+0300] {logging_mixin.py:190} INFO -  Previous state of the Task instance: running
+[2025-06-05T18:23:35.223+0300] {logging_mixin.py:190} INFO - Dag name:push_autopark_import_pipeline queued_at:2025-06-05 15:23:25.134283+00:00
+[2025-06-05T18:23:35.223+0300] {logging_mixin.py:190} INFO - Task hostname:MacBook-Pro-Margarita.local operator:SQLExecuteQueryOperator
+[2025-06-05T18:23:35.252+0300] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2025-06-05T18:23:35.292+0300] {taskinstance.py:3895} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2025-06-05T18:23:35.293+0300] {local_task_job_runner.py:245} INFO - ::endgroup::

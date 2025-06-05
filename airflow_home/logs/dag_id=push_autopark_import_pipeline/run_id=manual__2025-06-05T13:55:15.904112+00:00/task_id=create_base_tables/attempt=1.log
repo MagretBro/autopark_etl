@@ -1,0 +1,101 @@
+[2025-06-05T16:55:25.771+0300] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2025-06-05T16:55:25.802+0300] {taskinstance.py:2613} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: push_autopark_import_pipeline.create_base_tables manual__2025-06-05T13:55:15.904112+00:00 [queued]>
+[2025-06-05T16:55:25.814+0300] {taskinstance.py:2613} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: push_autopark_import_pipeline.create_base_tables manual__2025-06-05T13:55:15.904112+00:00 [queued]>
+[2025-06-05T16:55:25.815+0300] {taskinstance.py:2866} INFO - Starting attempt 1 of 1
+[2025-06-05T16:55:25.835+0300] {taskinstance.py:2889} INFO - Executing <Task(SQLExecuteQueryOperator): create_base_tables> on 2025-06-05 13:55:15.904112+00:00
+[2025-06-05T16:55:25.839+0300] {standard_task_runner.py:72} INFO - Started process 13972 to run task
+[2025-06-05T16:55:25.848+0300] {standard_task_runner.py:104} INFO - Running: ['airflow', 'tasks', 'run', 'push_autopark_import_pipeline', 'create_base_tables', 'manual__2025-06-05T13:55:15.904112+00:00', '--job-id', '6', '--raw', '--subdir', 'DAGS_FOLDER/push_autopark_import_pipeline.py', '--cfg-path', '/var/folders/p0/qnxbkr491pd245gy9gbyyml40000gn/T/tmpqg2i_6tc']
+[2025-06-05T16:55:25.852+0300] {standard_task_runner.py:105} INFO - Job 6: Subtask create_base_tables
+[2025-06-05T16:55:25.945+0300] {task_command.py:467} INFO - Running <TaskInstance: push_autopark_import_pipeline.create_base_tables manual__2025-06-05T13:55:15.904112+00:00 [running]> on host MacBook-Pro-Margarita.local
+[2025-06-05T16:55:26.032+0300] {abstractoperator.py:783} ERROR - Exception rendering Jinja template for task 'create_base_tables', field 'sql'. Template: '../sql/create_tables.sql'
+Traceback (most recent call last):
+  File "/Users/margaritaborodina/ALL_PROJECTS/airflow_car/venv/lib/python3.10/site-packages/airflow/models/abstractoperator.py", line 775, in _do_render_template_fields
+    rendered_content = self.render_template(
+  File "/Users/margaritaborodina/ALL_PROJECTS/airflow_car/venv/lib/python3.10/site-packages/airflow/template/templater.py", line 168, in render_template
+    template = jinja_env.get_template(value)
+  File "/Users/margaritaborodina/ALL_PROJECTS/airflow_car/venv/lib/python3.10/site-packages/jinja2/environment.py", line 1013, in get_template
+    return self._load_template(name, globals)
+  File "/Users/margaritaborodina/ALL_PROJECTS/airflow_car/venv/lib/python3.10/site-packages/jinja2/environment.py", line 972, in _load_template
+    template = self.loader.load(self, name, self.make_globals(globals))
+  File "/Users/margaritaborodina/ALL_PROJECTS/airflow_car/venv/lib/python3.10/site-packages/jinja2/loaders.py", line 126, in load
+    source, filename, uptodate = self.get_source(environment, name)
+  File "/Users/margaritaborodina/ALL_PROJECTS/airflow_car/venv/lib/python3.10/site-packages/jinja2/loaders.py", line 197, in get_source
+    pieces = split_template_path(template)
+  File "/Users/margaritaborodina/ALL_PROJECTS/airflow_car/venv/lib/python3.10/site-packages/jinja2/loaders.py", line 36, in split_template_path
+    raise TemplateNotFound(template)
+jinja2.exceptions.TemplateNotFound: ../sql/create_tables.sql
+[2025-06-05T16:55:26.044+0300] {taskinstance.py:3311} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/Users/margaritaborodina/ALL_PROJECTS/airflow_car/venv/lib/python3.10/site-packages/airflow/models/taskinstance.py", line 273, in _run_raw_task
+    TaskInstance._execute_task_with_callbacks(
+  File "/Users/margaritaborodina/ALL_PROJECTS/airflow_car/venv/lib/python3.10/site-packages/airflow/models/taskinstance.py", line 3115, in _execute_task_with_callbacks
+    task_orig = self.render_templates(context=context, jinja_env=jinja_env)
+  File "/Users/margaritaborodina/ALL_PROJECTS/airflow_car/venv/lib/python3.10/site-packages/airflow/models/taskinstance.py", line 3534, in render_templates
+    original_task.render_template_fields(context, jinja_env)
+  File "/Users/margaritaborodina/ALL_PROJECTS/airflow_car/venv/lib/python3.10/site-packages/airflow/models/baseoperator.py", line 1438, in render_template_fields
+    self._do_render_template_fields(self, self.template_fields, context, jinja_env, set())
+  File "/Users/margaritaborodina/ALL_PROJECTS/airflow_car/venv/lib/python3.10/site-packages/airflow/models/abstractoperator.py", line 775, in _do_render_template_fields
+    rendered_content = self.render_template(
+  File "/Users/margaritaborodina/ALL_PROJECTS/airflow_car/venv/lib/python3.10/site-packages/airflow/template/templater.py", line 168, in render_template
+    template = jinja_env.get_template(value)
+  File "/Users/margaritaborodina/ALL_PROJECTS/airflow_car/venv/lib/python3.10/site-packages/jinja2/environment.py", line 1013, in get_template
+    return self._load_template(name, globals)
+  File "/Users/margaritaborodina/ALL_PROJECTS/airflow_car/venv/lib/python3.10/site-packages/jinja2/environment.py", line 972, in _load_template
+    template = self.loader.load(self, name, self.make_globals(globals))
+  File "/Users/margaritaborodina/ALL_PROJECTS/airflow_car/venv/lib/python3.10/site-packages/jinja2/loaders.py", line 126, in load
+    source, filename, uptodate = self.get_source(environment, name)
+  File "/Users/margaritaborodina/ALL_PROJECTS/airflow_car/venv/lib/python3.10/site-packages/jinja2/loaders.py", line 197, in get_source
+    pieces = split_template_path(template)
+  File "/Users/margaritaborodina/ALL_PROJECTS/airflow_car/venv/lib/python3.10/site-packages/jinja2/loaders.py", line 36, in split_template_path
+    raise TemplateNotFound(template)
+jinja2.exceptions.TemplateNotFound: ../sql/create_tables.sql
+[2025-06-05T16:55:26.064+0300] {logging_mixin.py:190} INFO - Task instance in failure state
+[2025-06-05T16:55:26.065+0300] {logging_mixin.py:190} INFO - Task start:2025-06-05 13:55:25.802842+00:00 end:2025-06-05 13:55:26.063562+00:00 duration:0.26072
+[2025-06-05T16:55:26.065+0300] {logging_mixin.py:190} INFO - Task:<Task(SQLExecuteQueryOperator): create_base_tables> dag:<DAG: push_autopark_import_pipeline> dagrun:<DagRun push_autopark_import_pipeline @ 2025-06-05 13:55:15.904112+00:00: manual__2025-06-05T13:55:15.904112+00:00, state:running, queued_at: 2025-06-05 13:55:15.923278+00:00. externally triggered: True>
+[2025-06-05T16:55:26.066+0300] {logging_mixin.py:190} INFO - Failure caused by ../sql/create_tables.sql
+[2025-06-05T16:55:26.067+0300] {taskinstance.py:1225} INFO - Marking task as FAILED. dag_id=push_autopark_import_pipeline, task_id=create_base_tables, run_id=manual__2025-06-05T13:55:15.904112+00:00, execution_date=20250605T135515, start_date=20250605T135525, end_date=20250605T135526
+[2025-06-05T16:55:26.085+0300] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2025-06-05T16:55:26.087+0300] {standard_task_runner.py:124} ERROR - Failed to execute job 6 for task create_base_tables (../sql/create_tables.sql; 13972)
+Traceback (most recent call last):
+  File "/Users/margaritaborodina/ALL_PROJECTS/airflow_car/venv/lib/python3.10/site-packages/airflow/task/task_runner/standard_task_runner.py", line 117, in _start_by_fork
+    ret = args.func(args, dag=self.dag)
+  File "/Users/margaritaborodina/ALL_PROJECTS/airflow_car/venv/lib/python3.10/site-packages/airflow/cli/cli_config.py", line 49, in command
+    return func(*args, **kwargs)
+  File "/Users/margaritaborodina/ALL_PROJECTS/airflow_car/venv/lib/python3.10/site-packages/airflow/utils/cli.py", line 116, in wrapper
+    return f(*args, **kwargs)
+  File "/Users/margaritaborodina/ALL_PROJECTS/airflow_car/venv/lib/python3.10/site-packages/airflow/cli/commands/task_command.py", line 483, in task_run
+    task_return_code = _run_task_by_selected_method(args, _dag, ti)
+  File "/Users/margaritaborodina/ALL_PROJECTS/airflow_car/venv/lib/python3.10/site-packages/airflow/cli/commands/task_command.py", line 256, in _run_task_by_selected_method
+    return _run_raw_task(args, ti)
+  File "/Users/margaritaborodina/ALL_PROJECTS/airflow_car/venv/lib/python3.10/site-packages/airflow/cli/commands/task_command.py", line 341, in _run_raw_task
+    return ti._run_raw_task(
+  File "/Users/margaritaborodina/ALL_PROJECTS/airflow_car/venv/lib/python3.10/site-packages/airflow/utils/session.py", line 97, in wrapper
+    return func(*args, session=session, **kwargs)
+  File "/Users/margaritaborodina/ALL_PROJECTS/airflow_car/venv/lib/python3.10/site-packages/airflow/models/taskinstance.py", line 3005, in _run_raw_task
+    return _run_raw_task(
+  File "/Users/margaritaborodina/ALL_PROJECTS/airflow_car/venv/lib/python3.10/site-packages/airflow/models/taskinstance.py", line 273, in _run_raw_task
+    TaskInstance._execute_task_with_callbacks(
+  File "/Users/margaritaborodina/ALL_PROJECTS/airflow_car/venv/lib/python3.10/site-packages/airflow/models/taskinstance.py", line 3115, in _execute_task_with_callbacks
+    task_orig = self.render_templates(context=context, jinja_env=jinja_env)
+  File "/Users/margaritaborodina/ALL_PROJECTS/airflow_car/venv/lib/python3.10/site-packages/airflow/models/taskinstance.py", line 3534, in render_templates
+    original_task.render_template_fields(context, jinja_env)
+  File "/Users/margaritaborodina/ALL_PROJECTS/airflow_car/venv/lib/python3.10/site-packages/airflow/models/baseoperator.py", line 1438, in render_template_fields
+    self._do_render_template_fields(self, self.template_fields, context, jinja_env, set())
+  File "/Users/margaritaborodina/ALL_PROJECTS/airflow_car/venv/lib/python3.10/site-packages/airflow/models/abstractoperator.py", line 775, in _do_render_template_fields
+    rendered_content = self.render_template(
+  File "/Users/margaritaborodina/ALL_PROJECTS/airflow_car/venv/lib/python3.10/site-packages/airflow/template/templater.py", line 168, in render_template
+    template = jinja_env.get_template(value)
+  File "/Users/margaritaborodina/ALL_PROJECTS/airflow_car/venv/lib/python3.10/site-packages/jinja2/environment.py", line 1013, in get_template
+    return self._load_template(name, globals)
+  File "/Users/margaritaborodina/ALL_PROJECTS/airflow_car/venv/lib/python3.10/site-packages/jinja2/environment.py", line 972, in _load_template
+    template = self.loader.load(self, name, self.make_globals(globals))
+  File "/Users/margaritaborodina/ALL_PROJECTS/airflow_car/venv/lib/python3.10/site-packages/jinja2/loaders.py", line 126, in load
+    source, filename, uptodate = self.get_source(environment, name)
+  File "/Users/margaritaborodina/ALL_PROJECTS/airflow_car/venv/lib/python3.10/site-packages/jinja2/loaders.py", line 197, in get_source
+    pieces = split_template_path(template)
+  File "/Users/margaritaborodina/ALL_PROJECTS/airflow_car/venv/lib/python3.10/site-packages/jinja2/loaders.py", line 36, in split_template_path
+    raise TemplateNotFound(template)
+jinja2.exceptions.TemplateNotFound: ../sql/create_tables.sql
+[2025-06-05T16:55:26.110+0300] {local_task_job_runner.py:266} INFO - Task exited with return code 1
+[2025-06-05T16:55:26.155+0300] {taskinstance.py:3895} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2025-06-05T16:55:26.162+0300] {local_task_job_runner.py:245} INFO - ::endgroup::

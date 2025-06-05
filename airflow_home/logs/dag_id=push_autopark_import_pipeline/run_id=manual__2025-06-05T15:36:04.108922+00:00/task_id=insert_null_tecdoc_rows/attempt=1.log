@@ -1,0 +1,51 @@
+[2025-06-05T18:37:12.467+0300] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2025-06-05T18:37:12.516+0300] {taskinstance.py:2613} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: push_autopark_import_pipeline.insert_null_tecdoc_rows manual__2025-06-05T15:36:04.108922+00:00 [queued]>
+[2025-06-05T18:37:12.534+0300] {taskinstance.py:2613} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: push_autopark_import_pipeline.insert_null_tecdoc_rows manual__2025-06-05T15:36:04.108922+00:00 [queued]>
+[2025-06-05T18:37:12.535+0300] {taskinstance.py:2866} INFO - Starting attempt 1 of 1
+[2025-06-05T18:37:12.562+0300] {taskinstance.py:2889} INFO - Executing <Task(SQLExecuteQueryOperator): insert_null_tecdoc_rows> on 2025-06-05 15:36:04.108922+00:00
+[2025-06-05T18:37:12.566+0300] {standard_task_runner.py:72} INFO - Started process 29473 to run task
+[2025-06-05T18:37:12.576+0300] {standard_task_runner.py:104} INFO - Running: ['airflow', 'tasks', 'run', 'push_autopark_import_pipeline', 'insert_null_tecdoc_rows', 'manual__2025-06-05T15:36:04.108922+00:00', '--job-id', '20', '--raw', '--subdir', 'DAGS_FOLDER/push_autopark_import_pipeline.py', '--cfg-path', '/var/folders/p0/qnxbkr491pd245gy9gbyyml40000gn/T/tmp4k6q5_gg']
+[2025-06-05T18:37:12.580+0300] {standard_task_runner.py:105} INFO - Job 20: Subtask insert_null_tecdoc_rows
+[2025-06-05T18:37:12.699+0300] {task_command.py:467} INFO - Running <TaskInstance: push_autopark_import_pipeline.insert_null_tecdoc_rows manual__2025-06-05T15:36:04.108922+00:00 [running]> on host MacBook-Pro-Margarita.local
+[2025-06-05T18:37:12.884+0300] {taskinstance.py:3132} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='airflow' AIRFLOW_CTX_DAG_ID='push_autopark_import_pipeline' AIRFLOW_CTX_TASK_ID='insert_null_tecdoc_rows' AIRFLOW_CTX_EXECUTION_DATE='2025-06-05T15:36:04.108922+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2025-06-05T15:36:04.108922+00:00'
+[2025-06-05T18:37:12.887+0300] {logging_mixin.py:190} INFO - Task instance is in running state
+[2025-06-05T18:37:12.888+0300] {logging_mixin.py:190} INFO -  Previous state of the Task instance: queued
+[2025-06-05T18:37:12.889+0300] {logging_mixin.py:190} INFO - Current task name:insert_null_tecdoc_rows state:running start_date:2025-06-05 15:37:12.516962+00:00
+[2025-06-05T18:37:12.890+0300] {logging_mixin.py:190} INFO - Dag name:push_autopark_import_pipeline and current dag run status:running
+[2025-06-05T18:37:12.891+0300] {taskinstance.py:731} INFO - ::endgroup::
+[2025-06-05T18:37:12.893+0300] {sql.py:278} INFO - Executing: INSERT INTO table_old (tecdocid, carid, ap2023, ap2024, type)
+SELECT
+    NULL,
+    carid,
+    ap2023,
+    ap2024,
+    type
+FROM import_aggregated
+WHERE tecdocid IS NULL;
+[2025-06-05T18:37:12.912+0300] {base.py:84} INFO - Retrieving connection 'postgres_car'
+[2025-06-05T18:37:12.931+0300] {logging_mixin.py:190} WARNING - /Users/margaritaborodina/ALL_PROJECTS/airflow_car/venv/lib/python3.10/site-packages/airflow/providers/postgres/hooks/postgres.py:30 RemovedInAirflow3Warning: This module is deprecated. Please use `airflow.providers.common.sql.hooks.sql`.
+[2025-06-05T18:37:12.948+0300] {base.py:84} INFO - Retrieving connection 'postgres_car'
+[2025-06-05T18:37:12.949+0300] {sql.py:218} WARNING - This setter is for backward compatibility and should not be used.
+Since the introduction of connection property, the providers listed below breaks due to assigning value to self.connection in their __init__ method.
+* apache-airflow-providers-mysql<5.7.1
+* apache-airflow-providers-elasticsearch<5.5.1
+* apache-airflow-providers-postgres<5.13.0
+[2025-06-05T18:37:12.958+0300] {sql.py:553} INFO - Running statement: INSERT INTO table_old (tecdocid, carid, ap2023, ap2024, type)
+SELECT
+    NULL,
+    carid,
+    ap2023,
+    ap2024,
+    type
+FROM import_aggregated
+WHERE tecdocid IS NULL;, parameters: None
+[2025-06-05T18:37:12.963+0300] {sql.py:562} INFO - Rows affected: 1
+[2025-06-05T18:37:12.983+0300] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2025-06-05T18:37:12.985+0300] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=push_autopark_import_pipeline, task_id=insert_null_tecdoc_rows, run_id=manual__2025-06-05T15:36:04.108922+00:00, execution_date=20250605T153604, start_date=20250605T153712, end_date=20250605T153712
+[2025-06-05T18:37:13.001+0300] {logging_mixin.py:190} INFO - Task instance in success state
+[2025-06-05T18:37:13.001+0300] {logging_mixin.py:190} INFO -  Previous state of the Task instance: running
+[2025-06-05T18:37:13.002+0300] {logging_mixin.py:190} INFO - Dag name:push_autopark_import_pipeline queued_at:2025-06-05 15:36:04.133225+00:00
+[2025-06-05T18:37:13.003+0300] {logging_mixin.py:190} INFO - Task hostname:MacBook-Pro-Margarita.local operator:SQLExecuteQueryOperator
+[2025-06-05T18:37:13.057+0300] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2025-06-05T18:37:13.108+0300] {taskinstance.py:3895} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2025-06-05T18:37:13.109+0300] {local_task_job_runner.py:245} INFO - ::endgroup::
